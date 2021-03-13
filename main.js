@@ -2,7 +2,6 @@ import * as THREE from "https://unpkg.com/three@0.125.2/build/three.module.js";
 
 import Stats from "https://unpkg.com/three@0.125.2/examples/jsm/libs/stats.module.js";
 
-import { GUI } from "https://unpkg.com/three@0.125.2/examples/jsm/libs/dat.gui.module.js";
 import { PointerLockControls } from "https://unpkg.com/three@0.125.2/examples/jsm/controls/PointerLockControls.js";
 import { Water } from "https://unpkg.com/three@0.125.2/examples/jsm/objects/Water.js";
 import { Sky } from "https://unpkg.com/three@0.125.2/examples/jsm/objects/Sky.js";
