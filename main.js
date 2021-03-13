@@ -15,7 +15,7 @@ const KEY_SENSITIVITY = 3;
 const WAVE_INTENSITY = 2.5;
 const MIN_HEIGHT = 15;
 const ANGLE = Math.PI / 6;
-let prev_time = 0;
+let STARTED = false;
 let velocity = {
   x: 0,
   y: 0,
@@ -133,7 +133,10 @@ function init() {
   window.addEventListener("resize", onWindowResize);
 
   let startBtn = document.getElementById("start_btn");
-  startBtn.onclick = playAudio;
+  startBtn.onclick = function() {
+    STARTED = true;
+    playAudio();
+  }
 
   document.onkeydown = function (e) {
     onKeyDown(e);
@@ -193,53 +196,55 @@ function playAudio() {
 }
 
 function onKeyDown(e) {
-  switch (e.keyCode) {
-    case 37:
-      // LEFT
-      velocity.x = updateVelocity(-KEY_SENSITIVITY + velocity.x, velocity.x);
-      velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
+  if (STARTED) {
+    switch (e.keyCode) {
+      case 37:
+        // LEFT
+        velocity.x = updateVelocity(-KEY_SENSITIVITY + velocity.x, velocity.x);
+        velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
-      // bank left
-      bank(camera, sprite, ANGLE);
-      break;
-    case 65:
-      // LEFT
-      velocity.x = updateVelocity(-KEY_SENSITIVITY, velocity.x);
-      velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
+        // bank left
+        bank(camera, sprite, ANGLE);
+        break;
+      case 65:
+        // LEFT
+        velocity.x = updateVelocity(-KEY_SENSITIVITY, velocity.x);
+        velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
-      // bank left
-      bank(camera, sprite, ANGLE);
-      break;
-    case 38:
-      // FORWARD
-      velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
+        // bank left
+        bank(camera, sprite, ANGLE);
+        break;
+      case 38:
+        // FORWARD
+        velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
-      // realign vertically
-      bank(camera, sprite, 0);
-      break;
-    case 87:
-      // FORWARD
-      velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
+        // realign vertically
+        bank(camera, sprite, 0);
+        break;
+      case 87:
+        // FORWARD
+        velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
-      // realign vertically
-      bank(camera, sprite, 0);
-      break;
-    case 39 :
-      // RIGHT
-      velocity.x = updateVelocity(KEY_SENSITIVITY + velocity.x, velocity.x);
-      velocity.z = updateVelocity(-KEY_SENSITIVITY + velocity.z, velocity.z);
+        // realign vertically
+        bank(camera, sprite, 0);
+        break;
+      case 39 :
+        // RIGHT
+        velocity.x = updateVelocity(KEY_SENSITIVITY + velocity.x, velocity.x);
+        velocity.z = updateVelocity(-KEY_SENSITIVITY + velocity.z, velocity.z);
 
-      // bank right
-      bank(camera, sprite, -ANGLE);
-      break;
-    case 68:
-      // RIGHT
-      velocity.x = updateVelocity(KEY_SENSITIVITY, velocity.x);
-      velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
+        // bank right
+        bank(camera, sprite, -ANGLE);
+        break;
+      case 68:
+        // RIGHT
+        velocity.x = updateVelocity(KEY_SENSITIVITY, velocity.x);
+        velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
-      // bank right
-      bank(camera, sprite, -ANGLE);
-      break;
+        // bank right
+        bank(camera, sprite, -ANGLE);
+        break;
+    }
   }
 }
 
