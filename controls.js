@@ -1,4 +1,4 @@
-function bank(camera, sprite, mesh, angle) {
+function bank(camera, sprite, angle) {
   if (camera.rotation.z !== angle) {
     sprite.rotation.z = weightedAverage(camera.rotation.z, angle, 100, 1);
     camera.rotation.z = weightedAverage(camera.rotation.z, angle, 100, 1);

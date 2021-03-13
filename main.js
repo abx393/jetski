@@ -130,26 +130,6 @@ function init() {
   stats = new Stats();
   container.appendChild(stats.dom);
 
-  // GUI
-  const gui = new GUI();
-
-  const folderSky = gui.addFolder("Sky");
-  folderSky.add(parameters, "inclination", 0, 0.5, 0.0001).onChange(updateSun);
-  folderSky.add(parameters, "azimuth", 0, 1, 0.0001).onChange(updateSun);
-  folderSky.open();
-
-  const waterUniforms = water.material.uniforms;
-
-  const folderWater = gui.addFolder("Water");
-  folderWater
-    .add(waterUniforms.distortionScale, "value", 0, 8, 0.1)
-    .name("distortionScale");
-  folderWater.add(waterUniforms.size, "value", 0.1, 10, 0.1).name("size");
-  folderWater.add(waterUniforms.alpha, "value", 0.9, 1, 0.001).name("alpha");
-  folderWater.open();
-
-  //
-
   window.addEventListener("resize", onWindowResize);
 
   let startBtn = document.getElementById("start_btn");
@@ -178,7 +158,7 @@ function render() {
   const time = performance.now() * 0.001;
 
   sprite.position.y = (Math.sin(3*time) + 1) * WAVE_INTENSITY + MIN_HEIGHT;
-  camera.position.setY(sprite.position.y + 1.9);
+  camera.position.y = sprite.position.y + 1.9;
 
   camera.position.z += velocity.z;
   sprite.position.z += velocity.z;
@@ -187,7 +167,7 @@ function render() {
 
   velocity.z = updateVelocity(0, velocity.z);
   velocity.x = updateVelocity(0, velocity.x);
-  bank(camera, sprite, mesh, 0);
+  bank(camera, sprite, 0);
 
   water.material.uniforms["time"].value += 1.0 / 60.0;
 
@@ -214,13 +194,13 @@ function playAudio() {
 
 function onKeyDown(e) {
   switch (e.keyCode) {
-    case 37 || 65:
+    case 37:
       // LEFT
-      velocity.x = updateVelocity(-KEY_SENSITIVITY, velocity.x);
+      velocity.x = updateVelocity(-KEY_SENSITIVITY + velocity.x, velocity.x);
       velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
       // bank left
-      bank(camera, sprite, mesh, ANGLE);
+      bank(camera, sprite, ANGLE);
       break;
     case 65:
       // LEFT
@@ -228,29 +208,29 @@ function onKeyDown(e) {
       velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
       // bank left
-      bank(camera, sprite, mesh, ANGLE);
+      bank(camera, sprite, ANGLE);
       break;
     case 38:
       // FORWARD
       velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
       // realign vertically
-      bank(camera, sprite, mesh, 0);
+      bank(camera, sprite, 0);
       break;
     case 87:
       // FORWARD
       velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
       // realign vertically
-      bank(camera, sprite, mesh, 0);
+      bank(camera, sprite, 0);
       break;
     case 39 :
       // RIGHT
-      velocity.x = updateVelocity(KEY_SENSITIVITY, velocity.x);
-      velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
+      velocity.x = updateVelocity(KEY_SENSITIVITY + velocity.x, velocity.x);
+      velocity.z = updateVelocity(-KEY_SENSITIVITY + velocity.z, velocity.z);
 
       // bank right
-      bank(camera, sprite, mesh, -ANGLE);
+      bank(camera, sprite, -ANGLE);
       break;
     case 68:
       // RIGHT
@@ -258,7 +238,7 @@ function onKeyDown(e) {
       velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
       // bank right
-      bank(camera, sprite, mesh, -ANGLE);
+      bank(camera, sprite, -ANGLE);
       break;
   }
 }
@@ -269,8 +249,8 @@ function loadSprite(texture) {
   });
 
   sprite = new THREE.Sprite(spriteMaterial);
-  sprite.position.setX(30);
-  sprite.position.setZ(94);
+  sprite.position.x = 30;
+  sprite.position.z = 94;
   sprite.scale.set(11, 8, 11);
   scene.add(sprite);
 }
