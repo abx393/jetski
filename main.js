@@ -125,23 +125,12 @@ function init() {
     }
   );
 
-  const material = new THREE.MeshStandardMaterial({ roughness: 0 });
-
-  mesh = new THREE.Mesh(geometry, material);
-  mesh.position.set(30, 15, 0);
-  scene.add(mesh);
-
-  //
-
   controls = new PointerLockControls(camera, document.body);
-
-  //
 
   stats = new Stats();
   container.appendChild(stats.dom);
 
   // GUI
-
   const gui = new GUI();
 
   const folderSky = gui.addFolder("Sky");
@@ -189,14 +178,11 @@ function render() {
   const time = performance.now() * 0.001;
 
   sprite.position.y = (Math.sin(3*time) + 1) * WAVE_INTENSITY + MIN_HEIGHT;
-  //mesh.position.y = (Math.sin(time) + 1) * WAVE_INTENSITY + MIN_HEIGHT;
   camera.position.setY(sprite.position.y + 1.9);
 
   camera.position.z += velocity.z;
   sprite.position.z += velocity.z;
   sprite.position.x += velocity.x;
-  //mesh.position.z += velocity.z;
-  //mesh.position.x += velocity.x;
   camera.position.x += velocity.x;
 
   velocity.z = updateVelocity(0, velocity.z);
