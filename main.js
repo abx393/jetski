@@ -12,7 +12,7 @@ let camera, scene, renderer;
 let controls, water, sun, mesh, sprite;
 
 const KEY_SENSITIVITY = 3;
-const WAVE_INTENSITY = 2;
+const WAVE_INTENSITY = 2.5;
 const MIN_HEIGHT = 15;
 const ANGLE = Math.PI / 6;
 let prev_time = 0;
@@ -188,9 +188,9 @@ function animate() {
 function render() {
   const time = performance.now() * 0.001;
 
-  sprite.position.y = (Math.sin(time) + 1) * WAVE_INTENSITY + MIN_HEIGHT;
+  sprite.position.y = (Math.sin(3*time) + 1) * WAVE_INTENSITY + MIN_HEIGHT;
   //mesh.position.y = (Math.sin(time) + 1) * WAVE_INTENSITY + MIN_HEIGHT;
-  camera.position.setY(sprite.position.y);
+  camera.position.setY(sprite.position.y + 1.9);
 
   camera.position.z += velocity.z;
   sprite.position.z += velocity.z;
@@ -228,41 +228,51 @@ function playAudio() {
 
 function onKeyDown(e) {
   switch (e.keyCode) {
-    case 37:
+    case 37 || 65:
       // LEFT
-      //mesh.position.x -= KEY_SENSITIVITY;
-      //camera.position.x = mesh.position.x;
       velocity.x = updateVelocity(-KEY_SENSITIVITY, velocity.x);
       velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
-      //mesh.position.z -= KEY_SENSITIVITY;
-      //camera.position.z -= KEY_SENSITIVITY;
+      // bank left
+      bank(camera, sprite, mesh, ANGLE);
+      break;
+    case 65:
+      // LEFT
+      velocity.x = updateVelocity(-KEY_SENSITIVITY, velocity.x);
+      velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
       // bank left
       bank(camera, sprite, mesh, ANGLE);
-
       break;
     case 38:
       // FORWARD
       velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
-      //camera.position.z += velocity.z;
-      //mesh.position.z += velocity.z;
 
       // realign vertically
       bank(camera, sprite, mesh, 0);
-
       break;
-    case 39:
+    case 87:
+      // FORWARD
+      velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
+
+      // realign vertically
+      bank(camera, sprite, mesh, 0);
+      break;
+    case 39 :
       // RIGHT
       velocity.x = updateVelocity(KEY_SENSITIVITY, velocity.x);
       velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
-      //mesh.position.z -= KEY_SENSITIVITY;
-      //camera.position.z -= KEY_SENSITIVITY;
+      // bank right
+      bank(camera, sprite, mesh, -ANGLE);
+      break;
+    case 68:
+      // RIGHT
+      velocity.x = updateVelocity(KEY_SENSITIVITY, velocity.x);
+      velocity.z = updateVelocity(-KEY_SENSITIVITY, velocity.z);
 
       // bank right
       bank(camera, sprite, mesh, -ANGLE);
-
       break;
   }
 }
@@ -274,7 +284,6 @@ function loadSprite(texture) {
 
   sprite = new THREE.Sprite(spriteMaterial);
   sprite.position.setX(30);
-  sprite.position.setY(-100);
   sprite.position.setZ(94);
   sprite.scale.set(11, 8, 11);
   scene.add(sprite);
