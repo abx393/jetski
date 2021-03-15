@@ -189,7 +189,7 @@ function playAudio() {
   audioLoader.load("sounds/jetski_motor.mp3", function (buffer) {
     sound.setBuffer(buffer);
     sound.setLoop(true);
-    sound.setVolume(0.3);
+    sound.setVolume(1.8);
     sound.play();
   });
 }
