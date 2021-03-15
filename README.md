@@ -1,5 +1,5 @@
 # jetski
-Deployed at [http://jetski-sim.herokuapp.com](http://jetski-sim.herokuapp.com).
+Deployed at [http://abx393.github.io/jetski](http://abx393.github.io/jetski/).
 Built with [ThreeJs](https://github.com/mrdoob/three.js/).
 
 ### Browser Compatibility
